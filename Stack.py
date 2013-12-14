@@ -15,4 +15,7 @@ class Stack:
          return self.items[len(self.items)-1]
 
      def size(self):
-         return len(self.items)
+          return len(self.items)
+		 
+     def toList(self):
+          return self.items

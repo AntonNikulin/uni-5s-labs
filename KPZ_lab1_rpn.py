@@ -1,28 +1,31 @@
-import operator
+from Stack import Stack
 
 OPERATORS = {
-    '+':  operator.add,
-    '-':  operator.sub,
-    '*':  operator.mul,
-    '/':  operator.div,
+    '(': 1, #precedence of the operators
+    '+': 2,
+    '-': 2,
+    '*': 3,
+    '/': 3,
 }
 
 NUMBERS = [str(i) for i in range(10)]
 
 input = raw_input("Infix: ")
 
-stack = []
-postfix = []
+operatorsStack = Stack()
+postfix = Stack()
 
 for el in input.split():
     if el in NUMBERS:
-        postfix.append(el)
+        postfix.push(el)
 
     elif el in OPERATORS:
-        stack.append(el) #push
+        operatorsStack.push(el) 
 
     elif el == ')':
-        postfix.append(stack.pop())
+        postfix.push(operatorsStack.pop())
 
-print stack
-print postfix
+print operatorsStack.toList()
+print postfix.toList()
+
+
