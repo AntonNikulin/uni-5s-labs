@@ -11,38 +11,38 @@ OPERATORS = {
 
 NUMBERS = [str(i) for i in range(10)]
 
-input = raw_input("Infix: ")
-
 operatorsStack = Stack()
 postfix = []
 
-for el in input.split():
-    if el in NUMBERS:
-        postfix.append(el)
+def infixToPostfix(infix):
+    for el in infix.split():
+        if el in NUMBERS:
+            postfix.append(el)
 
-    elif el == '(':
-        operatorsStack.push(el)
-        
-    #from operatorsStack pop all operators until meeting left parenthesis
-    elif el == ')':
-        topOp = operatorsStack.pop()
-        while topOp != '(':
-            postfix.append(topOp)
+        elif el == '(':
+            operatorsStack.push(el)
+            
+        #from operatorsStack pop all operators until meeting left parenthesis
+        elif el == ')':
             topOp = operatorsStack.pop()
+            while topOp != '(':
+                postfix.append(topOp)
+                topOp = operatorsStack.pop()
 
-    elif el in OPERATORS:
-        while(not operatorsStack.isEmpty()) \
-                  and (OPERATORS[operatorsStack.peek()] >= OPERATORS[el]):
-            postfix.append(operatorsStack.pop())
-        operatorsStack.push(el)
+        elif el in OPERATORS:
+            while(not operatorsStack.isEmpty()) \
+                      and (OPERATORS[operatorsStack.peek()] >= OPERATORS[el]):
+                postfix.append(operatorsStack.pop())
+            operatorsStack.push(el)
 
-while not operatorsStack.isEmpty():
-    postfix.append(operatorsStack.pop())
+    while not operatorsStack.isEmpty():
+        postfix.append(operatorsStack.pop())
+    return postfix
 
-#Tests:
-
+input = raw_input("Infix: ")
+print infixToPostfix(input)
 
 #print operatorsStack.toList()
-print postfix
+#print postfix
 
 
