@@ -1,7 +1,8 @@
 from Stack import Stack
 
 OPERATORS = {
-    '(': 1, #precedence of the operators
+    #'operator': precedence of the operators
+    '(': 1, 
     '+': 2,
     '-': 2,
     '*': 3,
@@ -13,19 +14,35 @@ NUMBERS = [str(i) for i in range(10)]
 input = raw_input("Infix: ")
 
 operatorsStack = Stack()
-postfix = Stack()
+postfix = []
 
 for el in input.split():
     if el in NUMBERS:
-        postfix.push(el)
+        postfix.append(el)
+
+    elif el == '(':
+        operatorsStack.push(el)
+        
+    #from operatorsStack pop all operators until meeting left parenthesis
+    elif el == ')':
+        topOp = operatorsStack.pop()
+        while topOp != '(':
+            postfix.append(topOp)
+            topOp = operatorsStack.pop()
 
     elif el in OPERATORS:
-        operatorsStack.push(el) 
+        while(not operatorsStack.isEmpty()) \
+                  and (OPERATORS[operatorsStack.peek()] >= OPERATORS[el]):
+            postfix.append(operatorsStack.pop())
+        operatorsStack.push(el)
 
-    elif el == ')':
-        postfix.push(operatorsStack.pop())
+while not operatorsStack.isEmpty():
+    postfix.append(operatorsStack.pop())
 
-print operatorsStack.toList()
-print postfix.toList()
+#Tests:
+
+
+#print operatorsStack.toList()
+print postfix
 
 
