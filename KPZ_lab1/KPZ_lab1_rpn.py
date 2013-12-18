@@ -16,7 +16,7 @@ postfix = []
 
 def infixToPostfix(infix):
     for el in infix.split():
-        if el in NUMBERS:
+        if el in NUMBERS: #accept only numbers
             postfix.append(el)
 
         elif el == '(':
