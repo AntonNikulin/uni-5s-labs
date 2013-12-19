@@ -34,9 +34,19 @@ class Node:
             self.right.print_tree()
 
 
+    def height(self, root):
+        if root is None:
+            return 0
+        else:
+            return max(self.height(root.left), self.height(root.right)) + 1
+
 tree = Node(10)
 tree.insert(3)
 tree.insert(12)
-tree.insert(2)
+tree.insert(22)
+tree.insert(17)
+tree.insert(55)
+tree.insert(0)
+tree.insert(1)
 tree.print_tree()
-
+print "Tree height is {0}".format(tree.height(tree))
