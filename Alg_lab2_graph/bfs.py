@@ -1,47 +1,31 @@
-from collections import deque
+#from collections import deque
 
-def bfs(g, start):
-    queue, enqueued = deque([(None, start)]), set([start])
+# graph is in adjacent list representation
+graph = {
+        '1': ['4', '5', '2'],
+        '2': ['5', '6'],
+        '5': ['9', '10'],
+        '4': ['7', '8'],
+        '7': ['11', '12']
+        }
+
+def bfs(graph, start, end):
+    # maintain a queue of paths
+    queue = []
+    # push the first path into the queue
+    queue.append([start])
     while queue:
-        parent, n = queue.popleft()
-        yield parent, n
-        new = set(g[n]) - enqueued
-        enqueued |= new
-        queue.extend([(n, child) for child in new])
+        # get the first path from the queue
+        path = queue.pop(0)
+        # get the last node from the path
+        node = path[-1]
+        # path found
+        if node == end:
+            return path
+        # enumerate all adjacent nodes, construct a new path and push it into the queue
+        for adjacent in graph.get(node, []):
+            new_path = list(path)
+            new_path.append(adjacent)
+            queue.append(new_path)
 
-def dfs(g, start):
-    stack, enqueued = [(None, start)], set([start])
-    while stack:
-        parent, n = stack.pop()
-        yield parent, n
-        new = set(g[n]) - enqueued
-        enqueued |= new
-        stack.extend([(n, child) for child in new])
-
-def shortest_path(g, start, end):
-    parents = {}
-    for parent, child in bfs(g, start):
-        parents[child] = parent
-        if child == end:
-            revpath = [end]
-            while True:
-                parent = parents[child]
-                revpath.append(parent)
-                if parent == start:
-                    break
-                child = parent
-            return list(reversed(revpath))
-    return None # or raise appropriate exception
-
-if __name__ == '__main__':
-    # a sample graph
-    graph = {'A': ['B', 'C','E'],
-             'B': ['A','C', 'D'],
-             'C': ['D'],
-             'D': ['C'],
-             'E': ['F', 'D'],
-             'F': ['C']}
-
-    for e in bfs(graph, 'A'):
-        print e
-
+print bfs(graph, '1', '11')
