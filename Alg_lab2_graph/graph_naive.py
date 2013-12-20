@@ -19,6 +19,23 @@ class Vertex:
         return self.connectedTo[nbr]
 
 
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def enqueue(self, item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
+
+
 class Graph:
     def __init__(self):
         self.vertList = {}
@@ -51,3 +68,20 @@ class Graph:
 
     def __iter__(self):
         return iter(self.vertList.values())
+
+
+g = Graph()
+for i in range(5):
+    g.addVertex(i)
+
+g.addEdge(3,2)
+g.addEdge(3,4)
+g.addEdge(3,5)
+g.addEdge(2,1)
+g.addEdge(1,5)
+g.addEdge(1,4)
+g.addEdge(4,5)
+
+for v in g:
+    for w in v.getConnections():
+        print("( %s , %s )" % (v.getId(), w.getId()))
