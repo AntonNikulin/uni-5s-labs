@@ -22,7 +22,8 @@ def tokenize(stream):
 
     tokenRegex = '|'.join('(?P<%s>%s)' % pair for pair in tokenSpec)
     keywords = {
-        '+': 'PLUS',
+        ':': 'Function Start',
+        'def': 'Define Function'
     }
 
     nextToken = re.compile(tokenRegex).match
@@ -51,6 +52,9 @@ def tokenize(stream):
 
             if typ == 'Text' and param:
                 typ = 'Function parameter'
+
+            if typ == 'KeyWord' and value in keywords.keys():
+                typ = keywords[value]
 
 
             print Token(typ, value)
