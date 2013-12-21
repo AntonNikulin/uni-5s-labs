@@ -12,7 +12,7 @@ def tokenize(stream):
     Token = collections.namedtuple('Token', ['typ', 'value'])
 
     tokenSpec = [
-        ('KeyWord', r'def|:'),
+        ('KeyWord', r'def|:|,'),
         ('Text', r'[a-zA-Z_][a-zA-Z0-9_]*'),
         ('LBrace', r'[(]'),
         ('RBrace', r'[)]'),
@@ -23,7 +23,8 @@ def tokenize(stream):
     tokenRegex = '|'.join('(?P<%s>%s)' % pair for pair in tokenSpec)
     keywords = {
         ':': 'Function Start',
-        'def': 'Define Function'
+        'def': 'Define Function',
+        ',': 'Param separator'
     }
 
     nextToken = re.compile(tokenRegex).match
@@ -65,7 +66,7 @@ def tokenize(stream):
         #raise
 
 
-form = "def _Test ( param1 param2):"
+form = "def _Test(param1, param2):"
 
 tokenize(form)
 
