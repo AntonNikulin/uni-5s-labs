@@ -47,11 +47,11 @@ def tokenize(stream):
             if typ == 'RBrace':
                 param = False
 
-            if typ == 'Text':
-                typ = 'Function Name'
-
             if typ == 'Text' and param:
                 typ = 'Function parameter'
+
+            if typ == 'Text':
+                typ = 'Function Name'
 
             if typ == 'KeyWord' and value in keywords.keys():
                 typ = keywords[value]
@@ -65,7 +65,7 @@ def tokenize(stream):
         #raise
 
 
-form = "def _Test  (param1 param2):"
+form = "def _Test ( param1 param2):"
 
 tokenize(form)
 
